@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["es6"],
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
     "strict": true,
-    "typeRoots": ["../node_modules/@figma"]
+    "skipLibCheck": true,
+    "typeRoots": ["../node_modules/@figma", "../node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["../../mcp/src/shared/*"]
+    }
   }
 }
