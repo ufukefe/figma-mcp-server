@@ -7,7 +7,7 @@ import { config } from "./config.js";
 import { Server } from "socket.io";
 import http from "http";
 
-export function startStreamableHTTP() { 
+export async function startStreamableHTTP() { 
     const app = express();
     app.use(express.json());
 
@@ -72,7 +72,7 @@ export function startStreamableHTTP() {
     // Map to store transports by session ID
     const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
 
-    // Handle POST requests for client-to-server communication
+    const server = await getServer(io);
 
     app.post('/mcp', async (req: express.Request, res: express.Response) => {
         // Inspector adds "Bearer" to the authorization header, so we need to strip it 
@@ -100,7 +100,6 @@ export function startStreamableHTTP() {
                     delete transports[transport.sessionId];
                 }
             };
-            const server = await getServer(config);
 
             await server.connect(transport);
         } else {

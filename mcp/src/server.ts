@@ -4,13 +4,28 @@ import z from "zod";
 import type { Config } from "./config.js";
 import * as fs from "fs";
 import * as path from "path";
+import { TaskManager } from "./task-manager.js";
+import type { Server, Socket } from "socket.io";
+import { SocketManager } from "./socket-manager.js";
+import { Orchestrator } from "./orchestrator.js";
+import { getSelection } from "./tools/get-selection.js";
+import { getNodeInfo } from "./tools/get-node-info.js";
 
-export async function getServer(config: Config): Promise<McpServer> {
-    const server = new McpServer({
+export async function getServer(server: Server): Promise<McpServer> {
+
+    const taskManager = new TaskManager();
+    const socketManager = new SocketManager(server);
+    const orchestrator = new Orchestrator(socketManager, taskManager);
+
+    const mcpServer = new McpServer({
         name: `MCP Server for Figma`,
         description: "Model Context Protocol Server for Figma",
-        version: "0.1.0",
+        version: "0.1.1",
     });
 
-    return server;
+    // Register tools
+    getSelection(mcpServer, taskManager);
+    getNodeInfo(mcpServer, taskManager);
+
+    return mcpServer;
 }

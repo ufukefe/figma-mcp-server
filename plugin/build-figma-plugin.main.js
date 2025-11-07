@@ -4,11 +4,15 @@ module.exports = function (buildOptions) {
   return {
     ...buildOptions,
     define: {
-      global: 'globalThis'
+      global: 'globalThis',
+      'process.env': '{}'
     },
-    platform: 'node',
-    mainFields: ['browser', 'module', 'main', 'node'],
-    resolveExtensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx']
+    platform: 'browser',
+    mainFields: ['browser', 'module', 'main'],
+    resolveExtensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx'],
+    alias: {
+      'xmlhttprequest-ssl': path.resolve(__dirname, 'src/xmlhttprequest-stub.js')
+    }
   }
 }
 

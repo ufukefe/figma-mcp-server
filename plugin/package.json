@@ -6,8 +6,7 @@
     "preact": ">=10",
     "prismjs": "1.29.0",
     "react-simple-code-editor": "0.13.1",
-    "socket.io-client": "^4.8.1",
-    "xmlhttprequest-ssl": "^2.0.0"
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.3",

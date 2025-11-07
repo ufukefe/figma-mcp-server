@@ -7,7 +7,7 @@ import 'dotenv/config.js';
 const ENV: EnvStartConfig = envStartSchema.parse(process.env);
 
 if(ENV.TRANSPORT === "streamable-http") {
-    startStreamableHTTP();
+    await startStreamableHTTP();
 }
 else {
     startSTDIO();

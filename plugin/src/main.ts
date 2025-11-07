@@ -1,11 +1,13 @@
-import { loadFontsAsync, once, showUI } from '@create-figma-plugin/utilities'
+import { emit, loadFontsAsync, on, once, showUI } from '@create-figma-plugin/utilities'
 
-import { InsertCodeHandler } from './types'
-import express from 'express'
-import http from 'http'
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types'
+import { InsertCodeHandler, StartTaskHandler, TaskFailedHandler, TaskFinishedHandler } from './types'
 import { io } from 'socket.io-client'
+import { serializeNode } from './tools/serialization'
+import { safeToolProcessor } from './tools/safe-tool-processor'
+import { GetNodeInfoParams } from '@shared/types'
+import { getNodeInfo } from './tools/get-node-info'
+import { ToolResult } from './tools/tool-result'
+
 
 
 export default async function () {
@@ -18,37 +20,53 @@ export default async function () {
     figma.closePlugin()
   })
 
-  const socket1 = io("ws://example.com/my-namespace", {
-    reconnectionDelayMax: 10000,
-    auth: {
-      token: "123"
-    },
-    query: {
-      "my-key": "my-value"
-    }
-  });
+  on<StartTaskHandler>('START_TASK', async function (task: StartTaskHandler) {
+    console.log('start-task', task)
 
-  const socket = io('ws://example.com')
-  socket.on('connect', () => {
-    console.log('connected to MCP server')
+    let result: ToolResult = {
+      isError: true,
+      content: "Tool not found"
+    };
+    if (task.command === 'get-selection') {
+      const selection = figma.currentPage.selection;
+      console.log('selection', selection)
+
+      // Serialize all selected nodes
+      const serializedSelection = await Promise.all(selection.map(node => serializeNode(node)));
+
+      emit<TaskFinishedHandler>('TASK_FINISHED', {
+        name: 'TASK_FINISHED',
+        taskId: task.taskId,
+        content: JSON.stringify(serializedSelection),
+        isError: false
+      })
+    }
+
+    if (task.command === 'get-node-info') {
+      result = await safeToolProcessor<GetNodeInfoParams>(getNodeInfo)(task.args as GetNodeInfoParams);
+    }
+
+    if (result) {
+      if (result.isError) {
+        emit<TaskFailedHandler>('TASK_FAILED', {
+          name: 'TASK_FAILED',
+          taskId: task.taskId,
+          content: result.content,
+          isError: result.isError
+        })
+      }
+      else {
+        emit<TaskFinishedHandler>('TASK_FINISHED', {
+          name: 'TASK_FINISHED',
+          taskId: task.taskId,
+          content: result.content,
+          isError: result.isError
+        })
+      }
+    }
   })
-  socket.on('disconnect', () => {
-    console.log('disconnected from MCP server')
-  })
-  socket.on('message', (message: string) => {
-    console.log('message from MCP server:', message)
-  })
-  console.log('connecting to MCP server')
-  socket.connect();
-  console.log('connected to MCP server')
-  socket.emit('initialize', {
-    version: '1.0.0',
-    name: 'Figma MCP Server',
-    description: 'A MCP server for Figma',
-  })
-  console.log('initialized MCP server');
-  //call localhost:3001/mcp
-  const response = await fetch('http://localhost:3001/mcp')
+
+
   //const data = await response.json()
   //console.log('response from MCP server:', data)
   showUI({ height: 232, width: 320 })
