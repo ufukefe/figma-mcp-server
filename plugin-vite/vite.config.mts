@@ -2,7 +2,29 @@ import { defineConfig, Plugin } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import { viteSingleFile } from "vite-plugin-singlefile";
 import { utimesSync } from "fs";
-import { resolve } from "path";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Plugin to strip "use client" directives (needed for MUI v7)
+function stripUseClient(): Plugin {
+  return {
+    name: "strip-use-client",
+    transform(code, id) {
+      // Remove "use client" directives from the code
+      // Matches: "use client", 'use client', with or without semicolon, and optional whitespace
+      const cleanedCode = code.replace(/["']use client["'];?\s*\n?/g, "");
+      if (cleanedCode !== code) {
+        return {
+          code: cleanedCode,
+          map: null,
+        };
+      }
+    },
+  };
+}
 
 // Plugin to touch manifest.json on build
 function touchManifest(): Plugin {
@@ -25,8 +47,8 @@ function touchManifest(): Plugin {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: "./ui-src",
-  plugins: [reactRefresh(), viteSingleFile(), touchManifest()],
+  root: "./ui",
+  plugins: [stripUseClient(), reactRefresh(), viteSingleFile(), touchManifest()],
   build: {
     target: "esnext",
     assetsInlineLimit: 100000000,
@@ -40,3 +62,4 @@ export default defineConfig({
     },
   },
 });
+

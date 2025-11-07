@@ -7,9 +7,9 @@ export type LoadingIndicatorProps = HTMLDivElement & {
   color?: IconColor
 }
 
-const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ color, ...rest }) => {
+const LoadingIndicator: React.FC<Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> & { color?: IconColor }> = ({ color, ...rest }) => {
   return (
-    <div {...rest} className={styles.loadingIndicator}>
+    <div className={styles.loadingIndicator} {...rest}>
       <svg
         className={styles.svg}
         style={

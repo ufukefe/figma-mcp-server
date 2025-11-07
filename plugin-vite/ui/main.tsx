@@ -12,7 +12,7 @@ function Plugin(props: any) {
     <MainContainer>
       
       <MenuContainer>
-        aaa1 sas a
+        test
       </MenuContainer>
       <div style={{ 'height': '100%' }}>
 
