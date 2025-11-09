@@ -20,6 +20,7 @@ import { createText } from "./tools/create/create-text.js";
 import { setFillColor } from "./tools/update/set-fill-color.js";
 import { setStrokeColor } from "./tools/update/set-stroke-color.js";
 import { setCornerRadius } from "./tools/update/set-corner-radius.js";
+import { setLayout } from "./tools/update/set-layout.js";
 
 export async function getServer(server: Server): Promise<McpServer> {
 
@@ -50,6 +51,7 @@ export async function getServer(server: Server): Promise<McpServer> {
     setFillColor(mcpServer, taskManager);
     setStrokeColor(mcpServer, taskManager);
     setCornerRadius(mcpServer, taskManager);
+    setLayout(mcpServer, taskManager);
     // Delete tools
     deleteNode(mcpServer, taskManager);
 

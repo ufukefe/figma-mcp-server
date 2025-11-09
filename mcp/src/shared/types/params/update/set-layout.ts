@@ -1,0 +1,17 @@
+import { z } from "zod";
+
+export const SetLayoutParamsSchema = z.object({
+    id: z.string().describe("Node id"),
+    mode: z.enum(["NONE", "HORIZONTAL", "VERTICAL"]).describe("Layout mode"),
+    wrap: z.boolean().optional().describe("Layer should use wrapping auto-layout"),
+    clip: z.boolean().optional().describe("Clip content"),
+    itemSpacing: z.number().optional().describe("Distance between children"),
+    primaryAxisAlignContent: z.enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"]).optional().describe("Primary axis align content"),
+    counterAxisAlignContent: z.enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"]).optional().describe("Counter axis align content"),
+    paddingLeft: z.number().optional().describe("Left padding"),
+    paddingRight: z.number().optional().describe("Right padding"),
+    paddingTop: z.number().optional().describe("Top padding"),
+    paddingBottom: z.number().optional().describe("Bottom padding"),
+});
+
+export type SetLayoutParams = z.infer<typeof SetLayoutParamsSchema>;

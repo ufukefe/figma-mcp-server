@@ -3,6 +3,7 @@ import { serializeFill } from "./serialize-fill";
 
 export function serializeText(text: TextNode): string {
     return JSON.stringify({
+        id: text.id,
         x: text.x,
         y: text.y,
         width: text.width,

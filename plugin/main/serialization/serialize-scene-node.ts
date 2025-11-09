@@ -1,5 +1,6 @@
 export function serializeSceneNode(sceneNode: SceneNode): string {
     return JSON.stringify({
+        id: sceneNode.id,
         x: sceneNode.x,
         y: sceneNode.y,
         width: sceneNode.width,
