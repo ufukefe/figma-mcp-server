@@ -1,5 +1,5 @@
 import z from "zod";
-import { ColorHexSchema } from "../shared/color-hex";
+import { ColorHexSchema } from "../shared/color-hex.js";
 
 export const CreateTextParamsSchema = z.object({
     x: z.number().describe("X coordinate"),
