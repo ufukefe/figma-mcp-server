@@ -4,7 +4,7 @@ import { serializeNode } from './serialization/serialization';
 import { getNodeInfo } from './tools/read/get-node-info';
 import { createRectangle } from './tools/create/create-rectangle';
 import { safeToolProcessor } from './tools/safe-tool-processor';
-import { GetNodeInfoParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams  } from '@shared/types';
+import { GetNodeInfoParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams  } from '@shared/types';
 import { emit, on } from '@create-figma-plugin/utilities';
 import { getSelection } from 'tools/read/get-selection';
 import { moveNode } from 'tools/update/move-node';
@@ -13,6 +13,8 @@ import { deleteNode } from 'tools/delete/delete-node';
 import { cloneNode } from 'tools/create/clone-node';
 import { createFrame } from 'tools/create/create-frame';
 import { createText } from 'tools/create/create-text';
+import { setFillColor } from 'tools/update/set-fill-color';
+import { setStrokeColor } from 'tools/update/set-stroke-color';
 
 function main() {
 
@@ -58,6 +60,14 @@ function main() {
 
     if (task.command === 'create-text') {
       result = await safeToolProcessor<CreateTextParams>(createText)(task.args as CreateTextParams);
+    }
+
+    if (task.command === 'set-fill-color') {
+      result = await safeToolProcessor<SetFillColorParams>(setFillColor)(task.args as SetFillColorParams);
+    }
+
+    if (task.command === 'set-stroke-color') {
+      result = await safeToolProcessor<SetStrokeColorParams>(setStrokeColor)(task.args as SetStrokeColorParams);
     }
 
     if (result) {

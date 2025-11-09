@@ -17,6 +17,8 @@ import { deleteNode } from "./tools/delete/delete-node.js";
 import { cloneNode } from "./tools/create/clone-node.js";
 import { createFrame } from "./tools/create/create-frame.js";
 import { createText } from "./tools/create/create-text.js";
+import { setFillColor } from "./tools/update/set-fill-color.js";
+import { setStrokeColor } from "./tools/update/set-stroke-color.js";
 
 export async function getServer(server: Server): Promise<McpServer> {
 
@@ -44,7 +46,8 @@ export async function getServer(server: Server): Promise<McpServer> {
     // Update tools
     moveNode(mcpServer, taskManager);
     resizeNode(mcpServer, taskManager);
-
+    setFillColor(mcpServer, taskManager);
+    setStrokeColor(mcpServer, taskManager);
     // Delete tools
     deleteNode(mcpServer, taskManager);
 

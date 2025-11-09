@@ -18,6 +18,8 @@ export * from './params/delete/delete-node.js';
 // Update
 export * from './params/update/move-node.js';
 export * from './params/update/resize-node.js';
+export * from './params/update/set-fill-color.js';
+export * from './params/update/set-stroke-color.js';
 
 
 
