@@ -1,11 +1,11 @@
 {
-  "name": "@antonytm/mcp-all",
-  "mcpName": "io.github.Antonytm/mcp-figma",
-  "version": "0.1.0",
+  "name": "@antonytm/figma-mcp-server",
+  "mcpName": "io.github.Antonytm/figma-mcp-server",
+  "version": "0.1.1",
   "description": "MCP Server for Figma",
   "main": "./dist/bundle.js",
   "bin": {
-    "@antonytm/mcp-figma": "./dist/bundle.js"
+    "@antonytm/figma-mcp-server": "./dist/bundle.js"
   },
   "type": "module",
   "scripts": {
