@@ -2,6 +2,10 @@
     "mcpServers": {
       "Figma": {
         "url": "http://127.0.0.1:3846/mcp"
+      },
+      "Figma NPM": {
+        "command": "npx",
+        "args": ["@antonytm/figma-mcp-server@latest"]
       }
     }
   }

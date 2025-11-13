@@ -12,7 +12,7 @@ export const envStartSchema = z.object({
     })
 });
 
-export const PORT = 3846;
+export const PORT = 38450;
 
 export const filePaths = {
     indexPath: path.join(process.cwd(), 'mcp-all', 'mcp-search-index.json'),
