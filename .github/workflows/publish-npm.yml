@@ -36,7 +36,7 @@ jobs:
           # Configure registry without token authentication
           echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
           echo "@antonytm:registry=https://registry.npmjs.org/" >> ~/.npmrc
-        - name: Install dependencies  
+      - name: Install dependencies  
         working-directory: ./mcp
         run: npm ci
       - name: Build package
