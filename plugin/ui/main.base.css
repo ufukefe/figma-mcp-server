@@ -44,6 +44,13 @@
   border-color: currentColor;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   background-color: var(--figma-color-bg);

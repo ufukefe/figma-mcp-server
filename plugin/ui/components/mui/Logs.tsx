@@ -4,7 +4,9 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ScrollableContainer = styled(Box)`
-  height: 100%;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -13,8 +15,7 @@ const ScrollableContainer = styled(Box)`
   border: 1px solid var(--figma-color-border);
   border-radius: 4px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  position: relative;
   
   /* Custom scrollbar styling */
   &::-webkit-scrollbar {
@@ -34,6 +35,10 @@ const ScrollableContainer = styled(Box)`
       background: var(--figma-color-border-strong);
     }
   }
+  
+  /* Fallback for non-webkit browsers */
+  scrollbar-width: thin;
+  scrollbar-color: var(--figma-color-border) var(--figma-color-bg-secondary);
 `;
 
 const LogEntry = styled(Box)`
@@ -98,8 +103,8 @@ export default function Logs(props: LogsProps) {
           sx={{
             color: "var(--figma-color-text-secondary)",
             fontStyle: "italic",
-            textAlign: "center",
-            padding: "16px",
+            textAlign: "left",
+            padding: "14px",
           }}
         >
           No logs yet
