@@ -2,6 +2,7 @@
 import { envStartSchema, type EnvStartConfig } from './config.js';
 import { startSTDIO } from './stdio.js';
 import { startStreamableHTTP } from './streamable-http.js';
+import { safeLogError } from './utils.js';
 import 'dotenv/config.js';
 
 const ENV: EnvStartConfig = envStartSchema.parse(process.env);
@@ -14,6 +15,7 @@ try {
         await startSTDIO();
     }
 } catch (error) {
-    console.error('Failed to start server:', error);
+    // Use safe logger to avoid breaking MCP protocol in STDIO mode
+    safeLogError('Failed to start server:', error);
     process.exit(1);
 }

@@ -1,5 +1,5 @@
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { generateUUID } from "./utils.js";
+import { generateUUID, safeLogError } from "./utils.js";
 
 type TaskStatus = "pending" | "in_progress" | "completed" | "failed" | "timed_out";
 
@@ -78,7 +78,7 @@ export class TaskManager {
                 || task.status === 'failed'
                 || task.status === 'timed_out') {
                 if (task.status !== 'completed') {
-                    console.error("Attempt to update task after it has been completed, failed or timed out", id, result, status);
+                    safeLogError("Attempt to update task after it has been completed, failed or timed out", id, result, status);
                 }
                 return;
             }
@@ -87,7 +87,7 @@ export class TaskManager {
             task.updatedAt = new Date();
         }
         else {
-            console.error("Attempt to update task that does not exist", id, result, status);
+            safeLogError("Attempt to update task that does not exist", id, result, status);
             return;
         }
 
