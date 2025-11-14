@@ -1,6 +1,5 @@
 import type { FromPluginMessage } from "@shared/types";
 import type { Server } from "socket.io";
-import { safeLogError } from "./utils.js";
 
 type SocketMessage = "start-task" | "task-finished" | "task-failed";
 
@@ -18,7 +17,7 @@ export class SocketManager {
                         this._onTaskFinishedCallback(data);
                     }
                 } catch (error) {
-                    safeLogError('Error in task-finished handler:', error);
+                    console.error('Error in task-finished handler:', error);
                 }
             });
     
@@ -28,7 +27,7 @@ export class SocketManager {
                         this._onTaskErrorCallback(data);
                     }
                 } catch (error) {
-                    safeLogError('Error in task-failed handler:', error);
+                    console.error('Error in task-failed handler:', error);
                 }
             });
         });
