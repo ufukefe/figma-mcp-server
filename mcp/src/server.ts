@@ -21,6 +21,7 @@ import { setFillColor } from "./tools/update/set-fill-color.js";
 import { setStrokeColor } from "./tools/update/set-stroke-color.js";
 import { setCornerRadius } from "./tools/update/set-corner-radius.js";
 import { setLayout } from "./tools/update/set-layout.js";
+import { getAllComponents } from "./tools/read/get-all-components.js";
 
 export async function getServer(server: Server): Promise<McpServer> {
 
@@ -44,6 +45,7 @@ export async function getServer(server: Server): Promise<McpServer> {
     // Read tools
     getSelection(mcpServer, taskManager);
     getNodeInfo(mcpServer, taskManager);
+    getAllComponents(mcpServer, taskManager);
 
     // Update tools
     moveNode(mcpServer, taskManager);

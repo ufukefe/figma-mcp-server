@@ -48,6 +48,11 @@ c. macOS Bash: `TRANSPORT=streamable-http npx @antonytm/figma-mcp-server@latest`
 6. Start plugin
 7. You should see *Connected to MCP server* message
 
+### Inspector
+1. `cd mcp`
+2. `npm run inspector`
+3. Use `http://127.0.0.1:38450/mcp` to connect
+
 ## Tools
 
 TBD

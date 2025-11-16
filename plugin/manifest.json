@@ -8,6 +8,7 @@
   "permissions": [],
   "main": "dist/main.js",
   "ui": "dist/index.html",
+  "documentAccess": "dynamic-page",
   "networkAccess": {
     "allowedDomains": [
       "http://localhost:38450/",

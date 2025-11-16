@@ -2,9 +2,10 @@ import { StartTaskHandler, TaskFinishedHandler, TaskFailedHandler } from './type
 import { ToolResult } from './tools/tool-result';
 import { serializeNode } from './serialization/serialization';
 import { getNodeInfo } from './tools/read/get-node-info';
+import { getAllComponents } from './tools/read/get-all-components';
 import { createRectangle } from './tools/create/create-rectangle';
 import { safeToolProcessor } from './tools/safe-tool-processor';
-import { GetNodeInfoParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams } from '@shared/types';
+import { GetNodeInfoParams, GetAllComponentsParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams } from '@shared/types';
 import { emit, on } from '@create-figma-plugin/utilities';
 import { getSelection } from 'tools/read/get-selection';
 import { moveNode } from 'tools/update/move-node';
@@ -35,6 +36,10 @@ function main() {
 
       if (task.command === 'get-node-info') {
         result = await safeToolProcessor<GetNodeInfoParams>(getNodeInfo)(task.args as GetNodeInfoParams);
+      }
+
+      if (task.command === 'get-all-components') {
+        result = await safeToolProcessor<GetAllComponentsParams>(getAllComponents)(task.args as GetAllComponentsParams);
       }
 
       if (task.command === 'create-rectangle') {

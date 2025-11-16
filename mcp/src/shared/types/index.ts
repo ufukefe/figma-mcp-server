@@ -10,6 +10,7 @@ export * from './params/create/create-text.js';
 
 // Read
 export * from './params/read/get-node-info.js';
+export * from './params/read/get-all-components.js';
 
 // Delete
 export * from './params/delete/delete-node.js';
