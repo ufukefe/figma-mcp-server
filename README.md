@@ -57,6 +57,14 @@ c. macOS Bash: `TRANSPORT=streamable-http npx @antonytm/figma-mcp-server@latest`
 
 TBD
 
+## Security
+
+Plugin gives access to your design document for external systems: AI Agents that you will connect. It acts as a bridge in the similar way as the official Figma MCP server. And, similar to the official MCP server it works on local machine and do not expose any information to the networks.
+
+If you want to use it in the network, please do it on your own risk.
+
+If you found any security issue, please report it via GitHub issue. 
+
 ## Alternatives
 
 If your tasks could be done by [official Figma MCP server](https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server), please use it.
