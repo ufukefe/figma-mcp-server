@@ -5,7 +5,7 @@ import { getNodeInfo } from './tools/read/get-node-info';
 import { getAllComponents } from './tools/read/get-all-components';
 import { createRectangle } from './tools/create/create-rectangle';
 import { safeToolProcessor } from './tools/safe-tool-processor';
-import { GetNodeInfoParams, GetAllComponentsParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams, CreateInstanceParams } from '@shared/types';
+import { GetNodeInfoParams, GetAllComponentsParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams, CreateInstanceParams, AddComponentPropertyParams, EditComponentPropertyParams, DeleteComponentPropertyParams, SetInstancePropertiesParams, SetNodeComponentPropertyReferencesParams } from '@shared/types';
 import { emit, on } from '@create-figma-plugin/utilities';
 import { getSelection } from 'tools/read/get-selection';
 import { moveNode } from 'tools/update/move-node';
@@ -19,6 +19,11 @@ import { setStrokeColor } from 'tools/update/set-stroke-color';
 import { setCornerRadius } from 'tools/update/set-corner-radius';
 import { setLayout } from 'tools/update/set-layout';
 import { createInstance } from 'tools/create/create-instance';
+import { addComponentProperty } from 'tools/create/add-component-property';
+import { editComponentProperty } from 'tools/update/edit-component-property';
+import { deleteComponentProperty } from 'tools/delete/delete-component-property';
+import { setInstanceProperties } from 'tools/update/set-instance-properties';
+import { setNodeComponentPropertyReferences } from 'tools/update/set-node-component-property-references';
 
 function main() {
 
@@ -90,6 +95,26 @@ function main() {
         result = await safeToolProcessor<SetLayoutParams>(setLayout)(task.args as SetLayoutParams);
       }
 
+      if (task.command === 'add-component-property') {
+        result = await safeToolProcessor<AddComponentPropertyParams>(addComponentProperty)(task.args as AddComponentPropertyParams);
+      }
+
+      if (task.command === 'edit-component-property') {
+        result = await safeToolProcessor<EditComponentPropertyParams>(editComponentProperty)(task.args as EditComponentPropertyParams);
+      }
+
+      if (task.command === 'delete-component-property') {
+        result = await safeToolProcessor<DeleteComponentPropertyParams>(deleteComponentProperty)(task.args as DeleteComponentPropertyParams);
+      }
+
+      if (task.command === 'set-instance-properties') {
+        result = await safeToolProcessor<SetInstancePropertiesParams>(setInstanceProperties)(task.args as SetInstancePropertiesParams);
+      }
+
+      if (task.command === 'set-node-component-property-references') {
+        result = await safeToolProcessor<SetNodeComponentPropertyReferencesParams>(setNodeComponentPropertyReferences)(task.args as SetNodeComponentPropertyReferencesParams);
+      }
+      
       if (result) {
         if (result.isError) {
           emit<TaskFailedHandler>('TASK_FAILED', {

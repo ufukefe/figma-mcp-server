@@ -3,7 +3,7 @@ import { serializeNode } from "../../serialization/serialization";
 import { ToolResult } from "../tool-result";
 
 export async function getNodeInfo(args: GetNodeInfoParams): Promise<ToolResult> {
-    const node = figma.getNodeById(args.id);
+    const node = await figma.getNodeByIdAsync(args.id);
     if (node) {
         const serializedNode = serializeNode(node as SceneNode);
         return {

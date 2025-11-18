@@ -10,7 +10,7 @@ export async function createRectangle(args: CreateRectangleParams): Promise<Tool
     rectangle.name = args.name;
 
     if (args.parentId) {
-        const parent = figma.getNodeById(args.parentId);
+        const parent = await figma.getNodeByIdAsync(args.parentId);
         if (parent) {
             (parent as FrameNode).appendChild(rectangle);
         }

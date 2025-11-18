@@ -23,6 +23,10 @@ import { setCornerRadius } from "./tools/update/set-corner-radius.js";
 import { setLayout } from "./tools/update/set-layout.js";
 import { getAllComponents } from "./tools/read/get-all-components.js";
 import { createInstance } from "./tools/create/create-instance.js";
+import { addComponentProperty } from "./tools/create/add-component-property.js";
+import { editComponentProperty } from "./tools/update/edit-component-property.js";
+import { deleteComponentProperty } from "./tools/delete/delete-component-property.js";
+import { setInstanceProperties } from "./tools/update/set-instanse-properties.js";
 
 export async function getServer(server: Server): Promise<McpServer> {
 
@@ -44,6 +48,7 @@ export async function getServer(server: Server): Promise<McpServer> {
     createFrame(mcpServer, taskManager);
     createText(mcpServer, taskManager);
     createInstance(mcpServer, taskManager);
+    addComponentProperty(mcpServer, taskManager);
     // Read tools
     getSelection(mcpServer, taskManager);
     getNodeInfo(mcpServer, taskManager);
@@ -56,8 +61,11 @@ export async function getServer(server: Server): Promise<McpServer> {
     setStrokeColor(mcpServer, taskManager);
     setCornerRadius(mcpServer, taskManager);
     setLayout(mcpServer, taskManager);
+    editComponentProperty(mcpServer, taskManager);
+    setInstanceProperties(mcpServer, taskManager);
     // Delete tools
     deleteNode(mcpServer, taskManager);
+    deleteComponentProperty(mcpServer, taskManager);
 
     return mcpServer;
 }

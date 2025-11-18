@@ -3,7 +3,7 @@ import { serializeNode } from "serialization/serialization";
 import { ToolResult } from "tools/tool-result";
 
 export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
-    const node = figma.getNodeById(args.id);
+    const node = await figma.getNodeByIdAsync(args.id);
 
     if (!node) {
         return { isError: true, content: "Node not found" };

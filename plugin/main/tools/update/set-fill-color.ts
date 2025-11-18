@@ -3,7 +3,7 @@ import { SetFillColorParams } from "@shared/types";
 import { getSolidHEXColorPaint } from "utils/get-solid-color-paint";
 import { serializeNode } from "serialization/serialization";
 export async function setFillColor(args: SetFillColorParams): Promise<ToolResult> {
-    const node = figma.getNodeById(args.id);
+    const node = await figma.getNodeByIdAsync(args.id);
     if (!node) {
         return { isError: true, content: "Node not found" };
     }

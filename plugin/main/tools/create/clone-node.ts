@@ -3,7 +3,7 @@ import { ToolResult } from "tools/tool-result";
 import { serializeNode } from "serialization/serialization";
 
 export async function cloneNode(args: CloneNodeParams): Promise<ToolResult> {
-    const node = figma.getNodeById(args.id);
+    const node = await figma.getNodeByIdAsync(args.id);
     if (!node) {
         return { isError: true, content: "Node not found" };
     }

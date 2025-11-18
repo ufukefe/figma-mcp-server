@@ -2,7 +2,7 @@ import { DeleteNodeParams } from "@shared/types";
 import { ToolResult } from "tools/tool-result";
 
 export async function deleteNode(args: DeleteNodeParams): Promise<ToolResult> {
-    const node = figma.getNodeById(args.id);
+    const node = await figma.getNodeByIdAsync(args.id);
     if (!node) {
         return { isError: true, content: "Node not found" };
     }

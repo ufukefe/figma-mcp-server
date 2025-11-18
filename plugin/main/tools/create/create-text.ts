@@ -39,7 +39,7 @@ export async function createText(args: CreateTextParams): Promise<ToolResult> {
     text.characters = args.text;
 
     if (args.parentId) {
-        const parent = figma.getNodeById(args.parentId);
+        const parent = await figma.getNodeByIdAsync(args.parentId);
         if (parent) {
             (parent as FrameNode).appendChild(text);
         }

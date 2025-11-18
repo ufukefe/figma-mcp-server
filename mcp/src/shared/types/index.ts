@@ -8,6 +8,7 @@ export * from './params/create/create-frame.js';
 export * from './params/create/clone-node.js';
 export * from './params/create/create-text.js';
 export * from './params/create/create-instance.js';
+export * from './params/create/add-component-property.js';
 
 // Read
 export * from './params/read/get-node-info.js';
@@ -15,6 +16,7 @@ export * from './params/read/get-all-components.js';
 
 // Delete
 export * from './params/delete/delete-node.js';
+export * from './params/delete/delete-component-property.js';
 
 
 // Update
@@ -24,5 +26,7 @@ export * from './params/update/set-fill-color.js';
 export * from './params/update/set-stroke-color.js';
 export * from './params/update/set-corner-radius.js';
 export * from './params/update/set-layout.js';
-
+export * from './params/update/edit-component-property.js';
+export * from './params/update/set-instance-properties.js';
+export * from './params/update/set-node-component-property-references.js';
 
