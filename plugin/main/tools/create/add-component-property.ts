@@ -10,7 +10,14 @@ export async function addComponentProperty(args: AddComponentPropertyParams): Pr
         return { isError: true, content: "Node is not a component" };
     }
     const componentNode = component as ComponentNode;
-    const componentProperty = componentNode.addComponentProperty(args.name, args.type, args.defaultValue);
-    return { isError: false, content: componentProperty };
 
+    const property = {
+        name: args.name,
+        type: args.type,
+        defaultValue: args.type === "BOOLEAN"
+            ? Boolean(args.defaultValue)
+            : args.defaultValue,
+    };
+    componentNode.addComponentProperty(property.name, property.type, property.defaultValue);
+    return { isError: false, content: "Component properties added successfully" };
 }

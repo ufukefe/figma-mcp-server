@@ -5,7 +5,7 @@ import { getNodeInfo } from './tools/read/get-node-info';
 import { getAllComponents } from './tools/read/get-all-components';
 import { createRectangle } from './tools/create/create-rectangle';
 import { safeToolProcessor } from './tools/safe-tool-processor';
-import { GetNodeInfoParams, GetAllComponentsParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams, CreateInstanceParams, AddComponentPropertyParams, EditComponentPropertyParams, DeleteComponentPropertyParams, SetInstancePropertiesParams, SetNodeComponentPropertyReferencesParams } from '@shared/types';
+import { GetNodeInfoParams, GetAllComponentsParams, CreateRectangleParams, MoveNodeParams, ResizeNodeParams, DeleteNodeParams, CloneNodeParams, CreateFrameParams, CreateTextParams, SetFillColorParams, SetStrokeColorParams, SetCornerRadiusParams, SetLayoutParams, CreateInstanceParams, AddComponentPropertyParams, EditComponentPropertyParams, DeleteComponentPropertyParams, SetInstancePropertiesParams, SetNodeComponentPropertyReferencesParams, CreateComponentParams, SetParentIdParams } from '@shared/types';
 import { emit, on } from '@create-figma-plugin/utilities';
 import { getSelection } from 'tools/read/get-selection';
 import { moveNode } from 'tools/update/move-node';
@@ -24,12 +24,15 @@ import { editComponentProperty } from 'tools/update/edit-component-property';
 import { deleteComponentProperty } from 'tools/delete/delete-component-property';
 import { setInstanceProperties } from 'tools/update/set-instance-properties';
 import { setNodeComponentPropertyReferences } from 'tools/update/set-node-component-property-references';
+import { createComponent } from 'tools/create/create-component';
+import { setParentId } from 'tools/update/set-parent-id';
 
 function main() {
 
   on<StartTaskHandler>('START_TASK', async function (task: StartTaskHandler) {
     try {
       console.log('start-task', task)
+      await figma.loadAllPagesAsync();
 
       let result: ToolResult = {
         isError: true,
@@ -114,7 +117,15 @@ function main() {
       if (task.command === 'set-node-component-property-references') {
         result = await safeToolProcessor<SetNodeComponentPropertyReferencesParams>(setNodeComponentPropertyReferences)(task.args as SetNodeComponentPropertyReferencesParams);
       }
-      
+
+      if (task.command === 'create-component') {
+        result = await safeToolProcessor<CreateComponentParams>(createComponent)(task.args as CreateComponentParams);
+      }
+
+      if (task.command === 'set-parent-id') {
+        result = await safeToolProcessor<SetParentIdParams>(setParentId)(task.args as SetParentIdParams);
+      }
+
       if (result) {
         if (result.isError) {
           emit<TaskFailedHandler>('TASK_FAILED', {

@@ -9,6 +9,7 @@ export * from './params/create/clone-node.js';
 export * from './params/create/create-text.js';
 export * from './params/create/create-instance.js';
 export * from './params/create/add-component-property.js';
+export * from './params/create/create-component.js';
 
 // Read
 export * from './params/read/get-node-info.js';
@@ -29,4 +30,5 @@ export * from './params/update/set-layout.js';
 export * from './params/update/edit-component-property.js';
 export * from './params/update/set-instance-properties.js';
 export * from './params/update/set-node-component-property-references.js';
+export * from './params/update/set-parent-id.js';
 

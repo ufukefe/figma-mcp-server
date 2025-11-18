@@ -4,7 +4,7 @@ export const EditComponentPropertyParamsSchema = z.object({
     componentId: z.string().regex(/^\d*:\d*$/).describe("Component id (page:node)"),
     name: z.string().describe("Property name"),
     type: z.enum(['BOOLEAN', 'TEXT', 'INSTANCE_SWAP', 'VARIANT']).describe("Property type"),
-    defaultValue: z.union([z.string(), z.boolean()]).describe("Default property value"),
+    defaultValue: z.string().describe("Default property value"),
     preferredValues: z.array(z.string()).optional().describe("Preferred values"),
 });
 

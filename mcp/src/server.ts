@@ -26,7 +26,9 @@ import { createInstance } from "./tools/create/create-instance.js";
 import { addComponentProperty } from "./tools/create/add-component-property.js";
 import { editComponentProperty } from "./tools/update/edit-component-property.js";
 import { deleteComponentProperty } from "./tools/delete/delete-component-property.js";
-import { setInstanceProperties } from "./tools/update/set-instanse-properties.js";
+import { setInstanceProperties } from "./tools/update/set-instance-properties.js";
+import { createComponent } from "./tools/create/create-component.js";
+import { setParentId } from "./tools/update/set-parent-id.js";
 
 export async function getServer(server: Server): Promise<McpServer> {
 
@@ -39,7 +41,7 @@ export async function getServer(server: Server): Promise<McpServer> {
         description: "Model Context Protocol Server for Figma",
         version: "0.1.1",
     });
-
+ 
     // Register tools
 
     // Create tools
@@ -49,6 +51,7 @@ export async function getServer(server: Server): Promise<McpServer> {
     createText(mcpServer, taskManager);
     createInstance(mcpServer, taskManager);
     addComponentProperty(mcpServer, taskManager);
+    createComponent(mcpServer, taskManager);
     // Read tools
     getSelection(mcpServer, taskManager);
     getNodeInfo(mcpServer, taskManager);
@@ -63,6 +66,7 @@ export async function getServer(server: Server): Promise<McpServer> {
     setLayout(mcpServer, taskManager);
     editComponentProperty(mcpServer, taskManager);
     setInstanceProperties(mcpServer, taskManager);
+    setParentId(mcpServer, taskManager);
     // Delete tools
     deleteNode(mcpServer, taskManager);
     deleteComponentProperty(mcpServer, taskManager);
