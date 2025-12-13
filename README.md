@@ -4,7 +4,10 @@
 
 The official Figma MCP server has only read-only tools. **You can not change anything in the Figma document using the official Figma MCP server.**
 You can use AI Agent in Figma Make. But, it is not convenient to chat in Figma Make and then move result to Figma to continue.
-The goal is to enable AI Agents to work with your Figma documents. 
+
+**The goal is to enable AI Agents to work with your Figma documents.**
+
+You are able to ask you AI agent to implement the design in Figma that you want with this MCP server!
 
 ## Usage
 
@@ -22,6 +25,8 @@ The goal is to enable AI Agents to work with your Figma documents.
 6. Start the *Figma MCP Server* plugin
 7. Expected result: Message *Not connected to MCP server* should be shown
 8. Do not close Plugin window. It will show message *Connected to MCP server* when it is started.
+
+Next time you can start plugin from: *Plugins* > *Development* > *Figma MCP Server*. And do 1-3 steps only when you want to get latest changes.
 
 ### Start MCP server 
 
@@ -43,6 +48,10 @@ Now you should be able to ask your AI Agent to do something in Figma. For exampl
 
 **We are working on publishing it as Figma plugin. Figma reviewers haven't accepted it so far.**
 Once Figma accept it as plugin, the configuration and start will be simplified a lot!
+
+## Tools
+
+TBD
 
 ## Development
 
@@ -72,9 +81,20 @@ Contributions to the project are welcome!
 2. `npm run inspector`
 3. Use `http://127.0.0.1:38450/mcp` to connect
 
-## Tools
+## Architecture
 
-TBD
+WebSockets server is used as a medium to transfer messages between MCP Server and Figma Plugin.
+
+MCP server starts *Express.js* server with MCP endpoints and WebSockets *socket.io* server for communication with Plugin.
+MCP server save tool calls into the queue and send message to WebSockets server.
+
+Figma Plugin listen to the WebSocket server. And if there are any tasks to do, it takes them, do required actions, and return the result.
+
+MCP server listen to the WebSockets server. If there are any messages from Figma plugin then it processes them. It found the apropriacte tool call in the queue. And executes the promise with the result from Figma plugin. If any of tool calls are executed for too long then it returns timeout wihtout waiting for the response.
+
+![Architecture](doc/figma-mcp-architecture.png)
+![Sequence](doc/figma-mcp-sequence.svg)
+
 
 ## Security
 
