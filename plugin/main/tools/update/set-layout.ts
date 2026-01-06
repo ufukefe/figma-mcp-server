@@ -55,12 +55,12 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
                 errorMessage += "Node does not have a primaryAxisAlignContent property\n";
             }
         }
-        if (args.counterAxisAlignContent) {
-            if ("counterAxisAlignContent" in node) {
-                (node as unknown as { counterAxisAlignContent: string }).counterAxisAlignContent = args.counterAxisAlignContent;
+        if (args.counterAxisAlignItems) {
+            if ("counterAxisAlignItems" in node) {
+                (node as unknown as { counterAxisAlignItems: string }).counterAxisAlignItems = args.counterAxisAlignItems;
             }
             else {
-                errorMessage += "Node does not have a counterAxisAlignContent property\n";
+                errorMessage += "Node does not have a counterAxisAlignItems property\n";
             }
         }
     }
@@ -113,7 +113,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
         else {
             errorMessage += "Node does not have a layoutSizingHorizontal property\n";
         }
-    }   
+    }
 
     if (errorMessage.length > 0) {
         return { isError: true, content: errorMessage };

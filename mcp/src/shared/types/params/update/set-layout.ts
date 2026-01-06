@@ -7,7 +7,7 @@ export const SetLayoutParamsSchema = z.object({
     clip: z.boolean().optional().describe("Clip content"),
     itemSpacing: z.number().optional().describe("Distance between children"),
     primaryAxisAlignContent: z.enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"]).optional().describe("Primary axis align content"),
-    counterAxisAlignContent: z.enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"]).optional().describe("Counter axis align content"),
+    counterAxisAlignItems: z.enum(["MIN", "MAX", "CENTER", "SPACE_BETWEEN"]).optional().describe("Counter axis align content"),
     paddingLeft: z.number().optional().describe("Left padding"),
     paddingRight: z.number().optional().describe("Right padding"),
     paddingTop: z.number().optional().describe("Top padding"),
