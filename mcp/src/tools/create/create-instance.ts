@@ -9,7 +9,7 @@ export function createInstance(server: McpServer, taskManager: TaskManager) {
         "Create a instance.",
         CreateInstanceParamsSchema.shape,
         async (params: CreateInstanceParams) => {
-            return await safeToolProcessor<CreateInstanceParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("create-instance", params)
             );
         }

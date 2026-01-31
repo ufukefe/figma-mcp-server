@@ -10,7 +10,11 @@ export class Orchestrator {
         // Subscribe to task added events
         // Send start-task message via web socket to the Figma plugin
         this.taskManager.onTaskAdded((task) => {
-            this.socketManager.sendMessage('start-task', task);
+            this.socketManager.sendMessage('start-task', {
+                id: task.id,
+                command: task.command,
+                args: task.args,
+            });
         });
 
 

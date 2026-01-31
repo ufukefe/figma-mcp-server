@@ -3,7 +3,6 @@ import { SetParentIdParams } from "@shared/types";
 import { serializeNode } from "serialization/serialization";
 
 export async function setParentId(args: SetParentIdParams): Promise<ToolResult> {
-    await figma.loadAllPagesAsync();
     const node = await figma.getNodeByIdAsync(args.id);
     if (!node) {
         return { isError: true, content: "Node not found" };

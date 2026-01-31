@@ -9,7 +9,7 @@ export function setLayout(server: McpServer, taskManager: TaskManager) {
         "Set the layout of a node.",
         SetLayoutParamsSchema.shape,
         async (params: SetLayoutParams) => {
-            return await safeToolProcessor<SetLayoutParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-layout", params)
             );
         }

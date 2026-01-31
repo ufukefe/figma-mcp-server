@@ -9,7 +9,7 @@ export function createComponent(server: McpServer, taskManager: TaskManager) {
         "Create a component.",
         CreateComponentParamsSchema.shape,
         async (params: CreateComponentParams) => {
-            return await safeToolProcessor<CreateComponentParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("create-component", params)
             );
         }

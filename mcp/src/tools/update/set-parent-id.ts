@@ -10,7 +10,7 @@ export function setParentId(server: McpServer, taskManager: TaskManager) {
         "Set the parent id of a node.",
         SetParentIdParamsSchema.shape,
         async (params: SetParentIdParams) => {
-            return await safeToolProcessor<SetParentIdParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-parent-id", params)
             );
         }

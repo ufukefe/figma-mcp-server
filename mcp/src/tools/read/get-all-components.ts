@@ -6,10 +6,10 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp";
 export function getAllComponents(server: McpServer, taskManager: TaskManager) {
     server.tool(
         "get-all-components",   
-        "Get all components in the current file.",
+        "List components in the current file (paginated, token-efficient). Use `query`, `offset`, `limit`, `includeProperties`.",
         GetAllComponentsParamsSchema.shape,
         async (params: GetAllComponentsParams) => {
-            return await safeToolProcessor<GetAllComponentsParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("get-all-components", params)
             );
         }

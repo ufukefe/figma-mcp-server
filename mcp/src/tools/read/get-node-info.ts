@@ -6,10 +6,10 @@ import { safeToolProcessor } from "../safe-tool-processor.js";
 export function getNodeInfo(server: McpServer, taskManager: TaskManager) {
     server.tool(
         "get-node-info",
-        "Get the information of a node.",
+        "Get information about a node (token-efficient by default). Use `format: \"full\"` or `depth` for more detail.",
         GetNodeInfoParamsSchema.shape,
         async (params: GetNodeInfoParams) => {
-            return await safeToolProcessor<GetNodeInfoParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("get-node-info", params)
             );
         }

@@ -21,7 +21,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
         }
     }
 
-    if (args.wrap) {
+    if (typeof args.wrap === "boolean") {
         if ("layoutWrap" in node) {
             (node as unknown as { layoutWrap: string }).layoutWrap = args.wrap ? "WRAP" : "NO_WRAP";
         }
@@ -29,7 +29,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
             errorMessage += "Node does not have a layoutWrap property\n";
         }
     }
-    if (args.clip) {
+    if (typeof args.clip === "boolean") {
         if ("clipContent" in node) {
             (node as unknown as { clipContent: boolean }).clipContent = args.clip;
         }
@@ -39,7 +39,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
     }
 
     if (args.mode === "HORIZONTAL" || args.mode === "VERTICAL") {
-        if (args.itemSpacing) {
+        if (typeof args.itemSpacing === "number") {
             if ("itemSpacing" in node) {
                 (node as unknown as { itemSpacing: number }).itemSpacing = args.itemSpacing;
             }
@@ -65,7 +65,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
         }
     }
 
-    if (args.paddingLeft) {
+    if (typeof args.paddingLeft === "number") {
         if ("paddingLeft" in node) {
             (node as unknown as { paddingLeft: number }).paddingLeft = args.paddingLeft;
         }
@@ -73,7 +73,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
             errorMessage += "Node does not have a paddingLeft property\n";
         }
     }
-    if (args.paddingRight) {
+    if (typeof args.paddingRight === "number") {
         if ("paddingRight" in node) {
             (node as unknown as { paddingRight: number }).paddingRight = args.paddingRight;
         }
@@ -81,7 +81,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
             errorMessage += "Node does not have a paddingRight property\n";
         }
     }
-    if (args.paddingTop) {
+    if (typeof args.paddingTop === "number") {
         if ("paddingTop" in node) {
             (node as unknown as { paddingTop: number }).paddingTop = args.paddingTop;
         }
@@ -89,7 +89,7 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
             errorMessage += "Node does not have a paddingTop property\n";
         }
     }
-    if (args.paddingBottom) {
+    if (typeof args.paddingBottom === "number") {
         if ("paddingBottom" in node) {
             (node as unknown as { paddingBottom: number }).paddingBottom = args.paddingBottom;
         }
@@ -121,6 +121,6 @@ export async function setLayout(args: SetLayoutParams): Promise<ToolResult> {
 
     return {
         isError: false,
-        content: serializeNode(node as SceneNode)
+        content: serializeNode(node as SceneNode, { format: "full" })
     }
 }

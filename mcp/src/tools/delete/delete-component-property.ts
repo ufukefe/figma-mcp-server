@@ -9,7 +9,7 @@ export function deleteComponentProperty(server: McpServer, taskManager: TaskMana
         "Delete a component property.",
         DeleteComponentPropertyParamsSchema.shape,
         async (params: DeleteComponentPropertyParams) => {
-            return await safeToolProcessor<DeleteComponentPropertyParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("delete-component-property", params)
             );
         }

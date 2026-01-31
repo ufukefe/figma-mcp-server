@@ -1,13 +1,12 @@
-export function serializeRectangle(rectangle: RectangleNode): string {
-    return JSON.stringify({
+export function serializeRectangle(rectangle: RectangleNode): any {
+    return {
         id: rectangle.id,
+        type: rectangle.type,
+        name: rectangle.name,
         x: rectangle.x,
         y: rectangle.y,
         width: rectangle.width,
         height: rectangle.height,
-        name: rectangle.name,
-        parentId: rectangle.parent
-            ? `${rectangle.parent.id}:${rectangle.parent.type}`
-            : undefined
-    });
+        parentId: rectangle.parent ? `${rectangle.parent.id}:${rectangle.parent.type}` : undefined,
+    };
 }

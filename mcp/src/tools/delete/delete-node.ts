@@ -9,7 +9,7 @@ export function deleteNode(server: McpServer, taskManager: TaskManager) {
         "Delete a node.",
         DeleteNodeParamsSchema.shape,
         async (params: DeleteNodeParams) => {
-            return await safeToolProcessor<DeleteNodeParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("delete-node", params)
             );
         }

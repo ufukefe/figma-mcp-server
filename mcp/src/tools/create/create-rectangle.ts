@@ -9,7 +9,7 @@ export function createRectangle(server: McpServer, taskManager: TaskManager) {
         "Create a rectangle.",
         CreateRectangleParamsSchema.shape,
         async (params: CreateRectangleParams) => {
-            return await safeToolProcessor<CreateRectangleParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("create-rectangle", params)
             );
         }

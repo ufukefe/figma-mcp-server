@@ -9,7 +9,7 @@ export function cloneNode(server: McpServer, taskManager: TaskManager) {
         "Clone a node.",
         CloneNodeParamsSchema.shape,
         async (params: CloneNodeParams) => {
-            return await safeToolProcessor<CloneNodeParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("clone-node", params)
             );
         }

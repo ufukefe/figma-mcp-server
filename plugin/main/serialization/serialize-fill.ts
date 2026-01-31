@@ -1,18 +1,19 @@
 import { convertToHex } from "utils/color-conversion";
 
-export function serializeFill(fill: Paint[]  | typeof figma.mixed): string {
+export function serializeFill(fill: Paint[] | typeof figma.mixed): any {
     if (!Array.isArray(fill)) {
-        return "";
+        return { mixed: true };
     }
-    const result = fill.map((item) => {
-        if (item.type === 'SOLID') {
+
+    return fill.map((item) => {
+        if (item.type === "SOLID") {
             return {
-                type: 'SOLID',
-                color: convertToHex(item.color),
+                type: "SOLID",
+                color: convertToHex({ ...item.color, a: item.opacity ?? 1 }),
+                opacity: item.opacity,
             };
         }
-        // TODO: Add other fill types
-        return JSON.stringify(item);
+        // Keep it compact for token usage.
+        return { type: item.type };
     });
-    return JSON.stringify(result);
 }

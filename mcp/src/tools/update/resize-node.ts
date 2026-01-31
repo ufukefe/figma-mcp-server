@@ -9,7 +9,7 @@ export function resizeNode(server: McpServer, taskManager: TaskManager) {
         "Resize a node.",
         ResizeNodeParamsSchema.shape,
         async (params: ResizeNodeParams) => {
-            return await safeToolProcessor<ResizeNodeParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("resize-node", params)
             );
         }

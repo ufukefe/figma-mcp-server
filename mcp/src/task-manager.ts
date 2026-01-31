@@ -18,13 +18,27 @@ interface Task {
     resolve: (result: TaskResult) => void;
     reject: (result: TaskResult) => void;
     result: any;
+    timeoutId?: ReturnType<typeof setTimeout> | undefined;
 }
 
 // Task manager is responsible for managing the tasks.
 // Task could be added, updated and removed.
 // Events are raised when a task is added or updated
 export class TaskManager {
-    private tasks: Task[] = [];
+    private tasks = new Map<string, Task>();
+
+    private getTaskTimeoutMs(): number {
+        const raw = process.env.MCP_TASK_TIMEOUT_MS ?? process.env.FIGMA_MCP_TASK_TIMEOUT_MS;
+        const parsed = raw ? Number.parseInt(raw, 10) : NaN;
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : 20000;
+    }
+
+    private scheduleCleanup(id: string) {
+        // Keep completed tasks briefly so late plugin responses can be ignored quietly.
+        const timeout = setTimeout(() => this.tasks.delete(id), 60000);
+        // Avoid keeping the process alive solely for cleanup timers.
+        (timeout as any).unref?.();
+    }
 
 
     public runTask<TResult, TArgs>(
@@ -32,10 +46,11 @@ export class TaskManager {
         args: TArgs): Promise<TResult> {
         const id = generateUUID();
         const promise = new Promise((resolve, reject) => {
-            this.addTask(id, command, args, resolve, reject);
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 this.updateTask(id, { error: "Task timed out" }, "timed_out");
-            }, 5000);
+            }, this.getTaskTimeoutMs());
+
+            this.addTask(id, command, args, resolve, reject, timeoutId);
         });
         return promise as Promise<any>;
     }
@@ -44,7 +59,8 @@ export class TaskManager {
         command: string,
         args: TArgs,
         resolve: (result: any) => void,
-        reject: (result: any) => void) {
+        reject: (result: any) => void,
+        timeoutId?: ReturnType<typeof setTimeout>) {
         const task: Task = {
             id: id,
             command: command,
@@ -54,9 +70,10 @@ export class TaskManager {
             updatedAt: new Date(),
             resolve: resolve,
             reject: reject,
-            result: null
+            result: null,
+            timeoutId,
         };
-        this.tasks.push(task);
+        this.tasks.set(id, task);
         // Call the onTaskAdded event if subscriber(s) exist
         if (typeof this._onTaskAddedCallback === "function") {
             this._onTaskAddedCallback(task);
@@ -72,14 +89,10 @@ export class TaskManager {
 
     public updateTask(id: string, result: any, status: TaskStatus) {
 
-        const task = this.tasks.find(task => task.id === id);
+        const task = this.tasks.get(id);
         if (task) {
-            if (task.status === 'completed'
-                || task.status === 'failed'
-                || task.status === 'timed_out') {
-                if (task.status !== 'completed') {
-                    console.error("Attempt to update task after it has been completed, failed or timed out", id, result, status);
-                }
+            if (task.status === "completed" || task.status === "failed" || task.status === "timed_out") {
+                // Ignore late updates (e.g., plugin response after timeout).
                 return;
             }
 
@@ -91,11 +104,17 @@ export class TaskManager {
             return;
         }
 
+        if (task.timeoutId) {
+            clearTimeout(task.timeoutId);
+            task.timeoutId = undefined;
+        }
+
         if (status === 'completed') {
             task?.resolve({
                 isError: false,
                 content: result,
             });
+            this.scheduleCleanup(id);
         } else if (status === 'failed'
             || status === 'timed_out'
         ) {
@@ -103,6 +122,7 @@ export class TaskManager {
                 isError: true,
                 content: result,
             });
+            this.scheduleCleanup(id);
         }
     }
 }

@@ -10,7 +10,7 @@ export function setStrokeColor(server: McpServer, taskManager: TaskManager) {
         "Set the stroke color of a node.",
         SetStrokeColorParamsSchema.shape,
         async (params: SetStrokeColorParams) => {
-            return await safeToolProcessor<SetStrokeColorParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-stroke-color", params)
             );
         }

@@ -9,7 +9,7 @@ export function setNodeComponentPropertyReferences(server: McpServer, taskManage
         "Set the component property references of a node.",
         SetNodeComponentPropertyReferencesParamsSchema.shape,
         async (params: SetNodeComponentPropertyReferencesParams) => {
-            return await safeToolProcessor<SetNodeComponentPropertyReferencesParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-node-component-property-references", params)
             );
         }

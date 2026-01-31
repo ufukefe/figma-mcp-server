@@ -9,7 +9,7 @@ export function moveNode(server: McpServer, taskManager: TaskManager) {
         "Move a node.",
         MoveNodeParamsSchema.shape,
         async (params: MoveNodeParams) => {
-            return await safeToolProcessor<MoveNodeParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("move-node", params)
             );
         }

@@ -15,5 +15,8 @@ export async function createComponent(args: CreateComponentParams): Promise<Tool
             return { isError: true, content: "Parent node not found" };
         }
     }
+    else {
+        figma.currentPage.appendChild(component);
+    }
     return { isError: false, content: serializeComponent(component) };
 }

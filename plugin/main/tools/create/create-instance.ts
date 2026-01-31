@@ -24,6 +24,7 @@ export async function createInstance(args: CreateInstanceParams): Promise<ToolRe
                 content: "Parent node not found"
             }
         }
+        parent.appendChild(instance);
     }
     else {
         figma.currentPage.appendChild(instance);

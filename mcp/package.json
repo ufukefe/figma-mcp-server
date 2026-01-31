@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && node --test test/**/*.test.js",
     "build": "tsc",
     "bundle": "rollup -c",
     "start": "tsc && node dist/index.js",

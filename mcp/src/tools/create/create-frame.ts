@@ -9,7 +9,7 @@ export function createFrame(server: McpServer, taskManager: TaskManager) {
         "Create a frame.",
         CreateFrameParamsSchema.shape,
         async (params: CreateFrameParams) => {
-            return await safeToolProcessor<CreateFrameParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("create-frame", params)
             );
         }

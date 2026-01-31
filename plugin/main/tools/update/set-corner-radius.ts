@@ -14,16 +14,16 @@ export async function setCornerRadius(args: SetCornerRadiusParams): Promise<Tool
             (node as unknown as { cornerRadius: number }).cornerRadius = args.cornerRadius;
         }
 
-        if("topLeftRadius" in node && args.topLeftRadius) {
-            (node as unknown as { topLeftRadius: number }).topLeftRadius = args.topLeftRadius!;
+        if ("topLeftRadius" in node && typeof args.topLeftRadius === "number") {
+            (node as unknown as { topLeftRadius: number }).topLeftRadius = args.topLeftRadius;
         }
-        if("topRightRadius" in node && args.topRightRadius) {
-            (node as unknown as { topRightRadius: number }).topRightRadius = args.topRightRadius!;
+        if ("topRightRadius" in node && typeof args.topRightRadius === "number") {
+            (node as unknown as { topRightRadius: number }).topRightRadius = args.topRightRadius;
         }
-        if("bottomLeftRadius" in node && args.bottomLeftRadius) {
-            (node as unknown as { bottomLeftRadius: number }).bottomLeftRadius = args.bottomLeftRadius!;
+        if ("bottomLeftRadius" in node && typeof args.bottomLeftRadius === "number") {
+            (node as unknown as { bottomLeftRadius: number }).bottomLeftRadius = args.bottomLeftRadius;
         }
-        if("bottomRightRadius" in node && args.bottomRightRadius) {
+        if ("bottomRightRadius" in node && typeof args.bottomRightRadius === "number") {
             (node as unknown as { bottomRightRadius: number }).bottomRightRadius = args.bottomRightRadius;
         }
     }
@@ -31,5 +31,5 @@ export async function setCornerRadius(args: SetCornerRadiusParams): Promise<Tool
         return { isError: true, content: `Error setting corner radius: ${error instanceof Error ? error.message : JSON.stringify(error)}` };
     }
     const sceneNode = node as SceneNode;
-    return { isError: false, content: serializeNode(sceneNode) };
+    return { isError: false, content: serializeNode(sceneNode, { format: "full" }) };
 }

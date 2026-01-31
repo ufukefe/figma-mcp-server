@@ -9,7 +9,7 @@ export function setInstanceProperties(server: McpServer, taskManager: TaskManage
         "Set the properties of an instance.",
         SetInstancePropertiesParamsSchema.shape,
         async (params: SetInstancePropertiesParams) => {
-            return await safeToolProcessor<SetInstancePropertiesParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-instance-properties", params)
             );
         }

@@ -9,7 +9,7 @@ export function addComponentProperty(server: McpServer, taskManager: TaskManager
         "Add a component property.",
         AddComponentPropertyParamsSchema.shape,
         async (params: AddComponentPropertyParams) => {
-            return await safeToolProcessor<AddComponentPropertyParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("add-component-property", params)
             );
         }

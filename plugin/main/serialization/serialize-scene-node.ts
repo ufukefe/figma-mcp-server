@@ -1,13 +1,12 @@
-export function serializeSceneNode(sceneNode: SceneNode): string {
-    return JSON.stringify({
+export function serializeSceneNode(sceneNode: SceneNode): any {
+    return {
         id: sceneNode.id,
+        type: sceneNode.type,
+        name: sceneNode.name,
         x: sceneNode.x,
         y: sceneNode.y,
         width: sceneNode.width,
         height: sceneNode.height,
-        name: sceneNode.name,
-        parentId: sceneNode.parent
-            ? `${sceneNode.parent.id}:${sceneNode.parent.type}`
-            : undefined
-    });
+        parentId: sceneNode.parent ? `${sceneNode.parent.id}:${sceneNode.parent.type}` : undefined,
+    };
 }

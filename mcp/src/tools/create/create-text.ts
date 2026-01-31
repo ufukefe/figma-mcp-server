@@ -10,7 +10,7 @@ export function createText(server: McpServer, taskManager: TaskManager) {
         "Create a text.",
         CreateTextParamsSchema.shape,
         async (params: CreateTextParams) => {
-            return await safeToolProcessor<CreateTextParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("create-text", params)
             );
         }

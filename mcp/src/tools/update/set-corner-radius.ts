@@ -10,7 +10,7 @@ export function setCornerRadius(server: McpServer, taskManager: TaskManager) {
         "Set the corner radius of a node.",
         SetCornerRadiusParamsSchema.shape,
         async (params: SetCornerRadiusParams) => {
-            return await safeToolProcessor<SetCornerRadiusParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-corner-radius", params)
             );
         }

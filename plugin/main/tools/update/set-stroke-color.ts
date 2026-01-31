@@ -19,5 +19,5 @@ export async function setStrokeColor(args: SetStrokeColorParams): Promise<ToolRe
     catch (error) {
         return { isError: true, content: `Error setting stroke color: ${error instanceof Error ? error.message : JSON.stringify(error)}` };
     }
-    return { isError: false, content: serializeNode(node) };
+    return { isError: false, content: serializeNode(node as SceneNode, { includeStrokes: true }) };
 }

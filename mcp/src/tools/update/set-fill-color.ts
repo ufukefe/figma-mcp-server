@@ -10,7 +10,7 @@ export function setFillColor(server: McpServer, taskManager: TaskManager) {
         "Set the fill color of a node.",
         SetFillColorParamsSchema.shape, 
         async (params: SetFillColorParams) => {
-            return await safeToolProcessor<SetFillColorParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("set-fill-color", params)
             );
         }

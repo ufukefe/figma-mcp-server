@@ -9,7 +9,7 @@ export function editComponentProperty(server: McpServer, taskManager: TaskManage
         "Edit a component property.",
         EditComponentPropertyParamsSchema.shape,
         async (params: EditComponentPropertyParams) => {
-            return await safeToolProcessor<EditComponentPropertyParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("edit-component-property", params)
             );
         }

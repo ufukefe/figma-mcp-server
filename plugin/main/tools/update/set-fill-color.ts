@@ -18,5 +18,5 @@ export async function setFillColor(args: SetFillColorParams): Promise<ToolResult
     catch (error) {
         return { isError: true, content: `Error setting fill color: ${error instanceof Error ? error.message : JSON.stringify(error)}` };
     }
-    return { isError: false, content: serializeNode(node) };
+    return { isError: false, content: serializeNode(node as SceneNode, { includeFills: true }) };
 }

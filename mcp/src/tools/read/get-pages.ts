@@ -6,10 +6,10 @@ import { safeToolProcessor } from "../safe-tool-processor.js";
 export function getPages(server: McpServer, taskManager: TaskManager) {
     server.tool(
         "get-pages",
-        "Get all pages in the current file.",
+        "Get pages in the current file. Optionally include top-level children (compact refs) with `includeChildren`/`maxChildren`.",
         GetPagesParamsSchema.shape,
         async (params: GetPagesParams) => {
-            return await safeToolProcessor<GetPagesParams>(
+            return await safeToolProcessor(
                 taskManager.runTask("get-pages", params)
             );
         }

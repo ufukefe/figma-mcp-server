@@ -28,12 +28,20 @@ import { createComponent } from 'tools/create/create-component';
 import { setParentId } from 'tools/update/set-parent-id';
 import { getPages } from 'tools/read/get-pages';
 
+let allPagesLoaded: Promise<void> | null = null;
+async function ensureAllPagesLoaded() {
+  if (!allPagesLoaded) {
+    allPagesLoaded = figma.loadAllPagesAsync();
+  }
+  await allPagesLoaded;
+}
+
 function main() {
 
   on<StartTaskHandler>('START_TASK', async function (task: StartTaskHandler) {
     try {
       console.log('start-task', task)
-      await figma.loadAllPagesAsync();
+      await ensureAllPagesLoaded();
 
       let result: ToolResult = {
         isError: true,

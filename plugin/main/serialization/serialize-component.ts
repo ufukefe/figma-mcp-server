@@ -1,10 +1,16 @@
-export function serializeComponent(component: ComponentNode | ComponentSetNode): string {
+export function serializeComponent(
+    component: ComponentNode | ComponentSetNode,
+    options: { includeProperties?: boolean } = {}
+): any {
+    const includeProperties = options.includeProperties ?? false;
     const properties = component.componentPropertyDefinitions;
 
-    return JSON.stringify({
+    return {
         id: component.id,
+        type: component.type,
         name: component.name,
         key: component.key,
-        properties: properties,
-    });
+        propertyCount: properties ? Object.keys(properties).length : 0,
+        properties: includeProperties ? properties : undefined,
+    };
 }
