@@ -53,7 +53,9 @@ export default defineConfig({
     target: "es2017",
     assetsInlineLimit: 100000000,
     chunkSizeWarningLimit: 100000000,
-    sourcemap: true,
+    // Source maps trigger fetches from the Figma file origin (blocked by Figma plugin CSP),
+    // causing noisy console errors. Disable for a cleaner + more reliable plugin runtime.
+    sourcemap: false,
     cssCodeSplit: false,
     outDir: "../dist",
     commonjsOptions: {
@@ -71,4 +73,3 @@ export default defineConfig({
     },
   },
 });
-
