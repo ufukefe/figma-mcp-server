@@ -84,8 +84,8 @@ export async function startStreamableHTTP() {
             if (sessionId && transports[sessionId]) {
                 // Reuse existing transport
                 transport = transports[sessionId];
-            } else if (!sessionId && isInitializeRequest(req.body)) {
-                // New initialization request
+            } else if (isInitializeRequest(req.body)) {
+                // New initialization request (allow even if a stale session header is present)
                 transport = new StreamableHTTPServerTransport({
                     sessionIdGenerator: () => generateUUID(),
                     onsessioninitialized: (sessionId) => {
@@ -99,6 +99,26 @@ export async function startStreamableHTTP() {
                     if (transport.sessionId) {
                         delete transports[transport.sessionId];
                     }
+                };
+
+                await server.connect(transport);
+            } else if (sessionId && !transports[sessionId]) {
+                // Session is missing/expired. Some clients won't automatically re-initialize.
+                // Recover by recreating a transport and binding it to the provided session ID.
+                transport = new StreamableHTTPServerTransport({
+                    sessionIdGenerator: () => sessionId,
+                });
+
+                // Force transport into an initialized state so it can accept non-initialize requests.
+                transport.sessionId = sessionId;
+                (transport as unknown as { _initialized: boolean })._initialized = true;
+
+                // Store the recovered transport by the provided session ID.
+                transports[sessionId] = transport;
+
+                // Clean up transport when closed
+                transport.onclose = () => {
+                    delete transports[sessionId];
                 };
 
                 await server.connect(transport);
@@ -161,10 +181,4 @@ export async function startStreamableHTTP() {
     httpServer.listen(PORT, () => {
         console.log(`Server listening on http://localhost:${PORT}`);
     });
-
-    //async each 1 second, send a message to all connected clients
-    setInterval(() => {
-        const clients = Array.from(io.sockets.sockets.keys());
-        console.log('Connected clients:', clients);
-    }, 10000);
 }
